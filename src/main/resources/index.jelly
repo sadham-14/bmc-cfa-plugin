@@ -1,0 +1,4 @@
+<?jelly escape-by-default='true'?>
+<div>
+    BMC DevOps for CFA automates the process of reporting application checkpoints/commit information from IMS and DB2 logs. 
+</div>

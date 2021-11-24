@@ -1,0 +1,328 @@
+ <?jelly escape-by-default='true'?>
+ <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout"
+         xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:g="glide" >
+	<!--link rel="stylesheet" type="text/css" href="${rootURL}/plugin/DevOps4CFA/myStyle.css" /-->
+	
+	<!-- Make sure to update the totalNumOfoperands var inside BuildStepController.js for any new added operand -->
+	  
+	<!-- Create a unique id for each Build Step and assign it to each element id suffix to avoid duplicate elements IDs when adding a new build step -->
+	<j:set var="stepid" value="${descriptor.createUniqueId()}" />			
+  
+	<script type="text/javascript" src="${rootURL}/plugin/devops4cfa/BuildStepController.js" /> 
+ 	  		
+	<f:section title="Connection Options">
+		<f:entry title="Remote system name" field="server" >
+    		<f:textbox  style="text-transform: uppercase;" clazz="required"/>    	 
+  		</f:entry>  
+ 
+		<f:entry title="Remote system port#" field="port" >
+    		<f:textbox default="32208" style="text-transform: uppercase;"/>    	
+  		</f:entry> 
+  
+		<f:entry title="Remote system user name" field="user"  >
+    		<f:textbox  style="text-transform: uppercase;"/>    
+  		</f:entry>  
+   
+		<f:entry title="Remote system user password" field="pswd">
+			<f:password  autocomplete="off" id="pswd-${stepid}"/>
+		</f:entry>
+		
+	</f:section>
+
+	<f:section title="BMC CFA Options"> 		
+  
+  		<f:entry title="STEPLIB" >
+  			<f:repeatable name="builder.cfaLoadLibs" var="v" items="${instance.cfaLoadLibs}" minimum="1" add="Add library">
+      			<table width="100%"> 
+      				<f:entry field="lib"  > 
+    					<f:textbox name="lib" value="${v.lib}"  style="text-transform: uppercase;"/>
+    				</f:entry>	
+    				<f:entry>
+			  			<f:repeatableDeleteButton value="Delete library"></f:repeatableDeleteButton>
+			  		</f:entry>
+    			</table>	
+    		</f:repeatable>
+  		</f:entry>  		
+  		  
+	
+  	</f:section>	
+  		
+  		<f:section title="ANALYZE Keywords">
+  		
+ 			<f:optionalBlock name="bmcSlds" field="bmcSlds" title="SLDS" inline="true"  > <!--name & field must be the same, otherwise they won't be saved in the config.xml-->				
+		  			<f:repeatable name="builder.cfaSldsLibs" var="v" items="${instance.cfaSldsLibs}" minimum="1" add="Add SLDS">
+		      			<table width="100%"> 
+		      				<f:entry title="Data set name" field="sldsname">								       
+								<f:textbox  name="sldsname" value="${v.sldsname}" style="text-transform: uppercase;" clazz="required"/>    			
+							</f:entry>
+							<f:entry title="IMS version" field="sldsver">								       
+								<f:textbox placeholder="Rnnn" name="sldsver" value="${v.sldsver}" style="text-transform: uppercase;" clazz="required"/>    			
+							</f:entry>
+							<f:entry title="Unit" field="sldsunit">								       
+								<f:textbox name="sldsunit" value="${v.sldsunit}" style="text-transform: uppercase;"/>    			
+							</f:entry>
+							<f:entry title="Volser" field="sldsvolser">								       
+								<f:textbox name="sldsvolser"  value="${v.sldsvolser}" style="text-transform: uppercase;"/>    			
+							</f:entry>
+		    				<f:entry>
+					  			<f:repeatableDeleteButton value="Delete SLDS"></f:repeatableDeleteButton>
+					  		</f:entry>
+		    			</table>	
+		    		</f:repeatable>	  			
+		    </f:optionalBlock>			 	
+			 
+			<f:optionalBlock name="bmcDlilog" field="bmcDlilog" title="DLILOG" inline="true">				
+		  			<f:repeatable name="builder.cfaDliLibs" var="v" items="${instance.cfaDliLibs}" minimum="1" add="Add DLILOG">
+		      			<table width="100%"> 		      							     
+							<f:entry title="Data set name" field="dliname">								       
+								<f:textbox  name="dliname"  value="${v.dliname}" style="text-transform: uppercase;" clazz="required"/>    			
+							</f:entry>
+							<f:entry title="IMS version" field="dliver">								       
+								<f:textbox placeholder="Rnnn" name="dliver" value="${v.dliver}" style="text-transform: uppercase;" clazz="required"/>    			
+							</f:entry>
+							<f:entry title="Unit" field="dliunit">								       
+								<f:textbox  name="dliunit"  value="${v.dliunit}"  style="text-transform: uppercase;"/>    			
+							</f:entry>
+							<f:entry title="Volser" field="dlivolser">								       
+								<f:textbox  name="dlivolser"  value="${v.dlivolser}" style="text-transform: uppercase;"/>    			
+							</f:entry>
+							<f:entry>
+					  			<f:repeatableDeleteButton value="Delete DLILOG"></f:repeatableDeleteButton>
+					  		</f:entry>
+		    			</table>	
+		    		</f:repeatable>	  			
+			 </f:optionalBlock>					
+			
+			 <f:optionalBlock name="bmcRecon" field="bmcRecon"  title="RECON" inline="true"  >
+			 		<f:repeatable name="builder.cfaReconSets" var="v" items="${instance.cfaReconSets}" minimum="1" add="Add RECON SET">
+			      			<table width="100%"> 
+			      				<f:entry title="RECON1" field="recon1"  >
+	    							<f:textbox  value="${v.recon1}" style="text-transform: uppercase;"/>    
+	  							</f:entry> 
+	  							<f:entry title="RECON2" field="recon2"  >
+	    							<f:textbox  value="${v.recon2}" style="text-transform: uppercase;"/>    
+	  							</f:entry> 
+	  							<f:entry title="RECON3" field="recon3"  >
+	    							<f:textbox  value="${v.recon3}" style="text-transform: uppercase;"/>    
+	  							</f:entry>  
+	  							<f:entry>
+						  			<f:repeatableDeleteButton value="Delete RECON SET"></f:repeatableDeleteButton>
+						  		</f:entry>
+						  	</table>	
+			    		</f:repeatable>				
+			</f:optionalBlock>	
+			
+			<f:optionalBlock name="bmcImsid" field="bmcImsid" title="IMSID" inline="true"   > <!--name & field must be the same, otherwise they won't be saved in the config.xml-->				
+		  			<f:repeatable name="builder.cfaImsids" var="v" items="${instance.cfaImsids}" minimum="1" add="Add IMSID">
+		      			<table width="100%"> 
+		      				<f:entry field="imsid">								       
+								<f:textbox  name="imsid" value="${v.imsid}" style="text-transform: uppercase;"/>    			
+							</f:entry>							
+		    				<f:entry>
+					  			<f:repeatableDeleteButton value="Delete IMSID"></f:repeatableDeleteButton>
+					  		</f:entry>
+		    			</table>	
+		    		</f:repeatable>	  			
+		    </f:optionalBlock>	
+		    
+		    <f:optionalBlock name="bmcJobname" field="bmcJobname" title="JOBNAME" inline="true"  > <!--name & field must be the same, otherwise they won't be saved in the config.xml-->				
+		  			<f:repeatable name="builder.cfaJobnames" var="v" items="${instance.cfaJobnames}" minimum="1" add="Add JOBNAME">
+		      			<table width="100%"> 
+		      				<f:entry field="jobname">								       
+								<f:textbox  name="jobname" value="${v.jobname}" style="text-transform: uppercase;"/>    			
+							</f:entry>							
+		    				<f:entry>
+					  			<f:repeatableDeleteButton value="Delete JOBNAME"></f:repeatableDeleteButton>
+					  		</f:entry>
+		    			</table>	
+		    		</f:repeatable>	  			
+		    </f:optionalBlock>			 	
+			
+  		 	<f:optionalBlock name="bmcDb2log" field="bmcDb2log"  title="DB2LOG" inline="true" >
+	  		 	<f:entry title="DB2 log data set" field="db2log">								       
+					<f:textbox  name="db2log" style="text-transform: uppercase;"/>    			
+				</f:entry>	
+			</f:optionalBlock>	
+			 
+			<f:optionalBlock name="bmcDb2bsds" field="bmcDb2bsds" title="DB2BSDS" inline="true"  >
+	  		 	<f:entry title="DB2 bootstrap data set" field="db2bsds">								       
+					<f:textbox  name="db2bsds" style="text-transform: uppercase;"/>    			
+				</f:entry>	
+			</f:optionalBlock>				 
+			 
+			<f:optionalBlock name="bmcLimit" field="bmcLimit" title="LIMIT" inline="true"  >
+	  		 	<f:entry field="limit">					
+					<f:number placeholder="1-9999999999" name="limit" clazz="non-negative-number-required" min="1" max="9999999999"/>       			
+				</f:entry>	
+			</f:optionalBlock>			
+			
+			<f:optionalBlock name="bmcSkip" field="bmcSkip"  title="SKIP" inline="true" >
+	  		 	<f:entry field="skip">								       
+					<f:number default="0" name="skip" clazz="non-negative-number-required" min="1" max="9999999999"/> 		
+				</f:entry>	
+			</f:optionalBlock>			
+			
+			<f:optionalBlock name="bmcMaxlogs" field="bmcMaxlogs"  title="MAXLOGS" inline="true" >
+	  		 	<f:entry field="maxlogs">								       
+					<f:number placeholder="1-999" name="maxlogs" clazz="positive-number" min="1" max="999" style="text-transform: uppercase;"/>    			
+				</f:entry>
+				<f:entry field="maxlogsRc" title="RC">								       
+					<f:number id="maxlogsRc-${stepid}" name="maxlogsRc" placeholder="8-99" min="8" max="99" clazz="positive-number" oninput="oninputMaxlogsRc(this,${stepid})" />    			
+				</f:entry>
+				<f:entry field="maxlogsAbend" title="ABEND">								       
+					<f:number  id="maxlogsAbend-${stepid}" name="maxlogsAbend" placeholder="1-4095" clazz="positive-number" min="1" max="4095" oninput="oninputMaxlogsAbend(this,${stepid})" />    			
+				</f:entry>	
+			</f:optionalBlock>		
+			
+			
+			
+  			 <f:optionalBlock name="bmcActiveOlds" field="bmcActiveOlds"  title="ACTIVEOLDS" inline="true" >		
+			</f:optionalBlock> 
+  			
+  			 <f:optionalBlock name="bmcPrilog" field="bmcPrilog"  title="PRILOG" inline="true" >
+				 <f:entry field="prilog" title="">
+					 <f:select name="prilog" value="" onfocus="this.oldvalue = this.value;" >	</f:select>	
+				 </f:entry> 
+			</f:optionalBlock>
+				 
+  			 <f:optionalBlock name="bmcTimezone" field="bmcTimezone" title="TIMEZONE" inline="true"  >				
+				 
+				<f:radioBlock name="tz" title="GMT" id="gmt-${stepid}" checked="${(instance.tz)==null ? true : instance.tz.getValue().equals('gmt')}" value="gmt"></f:radioBlock>				
+				
+				<f:radioBlock name="tz" title="LOCAL" id="local-${stepid}" checked="${instance.tz.getValue().equals('local')}" value="local"></f:radioBlock>				
+									       
+				<f:radioBlock  name="tz" title="OFFSET" style="text-transform: uppercase;" checked="${instance.tz.getValue().equals('offset')}"  value="offset"> 
+					<f:textbox  field="timezoneoffset" name="timezoneoffset" id="tzOffset-${stepid}" placeholder="+hhmm" style="text-transform: uppercase;"/>  
+				</f:radioBlock>   			
+				
+			 </f:optionalBlock>		 
+ 	</f:section>  
+
+ 	<f:section title="INTERVAL Keywords"> 
+ 		<f:optionalBlock name="bmcStartInterval" field="bmcStartInterval" title="START" inline="true" >				 	
+			
+			<f:radioBlock name="start" title="FIRST" value="first" checked="${(instance.tz)==null ? true : instance.start.getValue().equals('first')}">	</f:radioBlock>			
+												       
+			<f:radioBlock  name="start" title="DATE" value="date" checked="${instance.start.getValue().equals('date')}"> 
+				<f:textbox field="startDate" name="startDate" placeholder="yyyyddd/hhmmssth" style="text-transform: uppercase;"/>  
+			</f:radioBlock>							
+						       
+			<f:radioBlock  name="start" title="Log sequence #"  value="logseq" checked="${instance.start.getValue().equals('logseq')}"> 
+					<f:textbox  field="startlogSeq" name="startlogSeq"  style="text-transform: uppercase;"/>  
+			</f:radioBlock>   			
+				
+		 </f:optionalBlock>
+
+		 <f:optionalBlock name="bmcStopInterval"  field="bmcStopInterval" title="STOP" inline="true"  >				
+		 	<f:radioBlock name="stop" title="LAST" value="last" checked="${(instance.tz)==null ? true : instance.stop.getValue().equals('last')}"> </f:radioBlock>			
+					       
+			<f:radioBlock  name="stop" title="DATE"  value="date" checked="${instance.stop.getValue().equals('date')}"> 
+				<f:textbox field="stopDate"  name="stopDate" placeholder="yyyyddd/hhmmssth" style="text-transform: uppercase;"/>  
+			</f:radioBlock> 
+						       
+			<f:radioBlock  name="stop" title="Log sequence #" value="logseq" checked="${instance.stop.getValue().equals('logseq')}"> 
+				<f:textbox  field="stoplogSeq" name="stoplogSeq"  style="text-transform: uppercase;"/>  
+			</f:radioBlock>   			
+				
+		 </f:optionalBlock>		 		 
+ 	</f:section> 
+ 	
+ 	<f:section title="REPORTS Keywords"> 
+ 		<f:optionalBlock name="bmcAppcheck" field="bmcAppcheck" title="APPCHECK" inline="true" >			
+			<f:optionalBlock name="bmcAll" field="bmcAll" title="ALL" inline="true" ></f:optionalBlock>
+			
+			<f:optionalBlock  name="bmcJobInc" field="bmcJobInc" title="INCLUDE JOBs" inline="true" >				
+				<f:textbox field="jobInclude" id="jobInclude-${stepid}" name="jobInclude" placeholder="JOB_NAME,JOB_NAME" style="text-transform: uppercase;"/>				   	
+			</f:optionalBlock> 	
+			
+			<f:optionalBlock  name="bmcJobExc" field="bmcJobExc" title="EXCLUDE JOBs" inline="true">   
+				<f:textbox field="jobExclude" id="jobExclude-${stepid}" name="jobExclude" placeholder="JOB_NAME,JOB_NAME"  style="text-transform: uppercase;"/>				
+			</f:optionalBlock> 
+			
+			<f:optionalBlock  name="bmcPsbInc" field="bmcPsbInc" title="INCLUDE PSBs" inline="true" >				
+				<f:textbox field="psbInclude" id="psbInclude-${stepid}" name="psbInclude" placeholder="PSB_NAME,PSB_NAME" style="text-transform: uppercase;"/>				   	
+			</f:optionalBlock> 	
+			
+			<f:optionalBlock  name="bmcPsbExc" field="bmcPsbExc" title="EXCLUDE PSBs" inline="true">   
+				<f:textbox field="psbExclude" id="psbExclude-${stepid}" name="psbExclude"  placeholder="PSB_NAME,PSB_NAME" style="text-transform: uppercase;"/>				
+			</f:optionalBlock> 
+			
+			<f:optionalBlock  name="bmcChkfreq" field="bmcChkfreq" title="CHKFREQ" inline="true">
+				<f:radio  id="less-${stepid}" name="chkfreq" title="Less than"  value="Less" checked="${instance.chkfreq.equals('Less')}" onclick="toggleChkfreqRadio(this,${stepid})"/>					
+				<f:radio  id="lessEqual-${stepid}" name="chkfreq" title="Less than or equal to"  value="LessEqual" checked="${instance.chkfreq.equals('LessEqual')}" onclick="toggleChkfreqRadio(this,${stepid})"/>
+				<f:radio  id="great-${stepid}" name="chkfreq" title="Greater than"  value="Greater" checked="${instance.chkfreq.equals('Greater')}" onclick="toggleChkfreqRadio(this,${stepid})"/>					
+				<f:radio  id="greatEqu-${stepid}" name="chkfreq" title="Greater than or equal to"  value="GreaterEqual" checked="${instance.chkfreq.equals('GreaterEqual')}" onclick="toggleChkfreqRadio(this,${stepid})"/>
+				<f:radio  id="equ-${stepid}" name="chkfreq" title="Equal to"  value="Equ" checked="${instance.chkfreq.getValue().equals('Equ')}" onclick="toggleChkfreqRadio(this,${stepid})"/>
+				<f:number field="chkfreqval" name="chkfreqval" id="chkFreq-${stepid}" placeholder="0-9999" min="0" max="9999" />  
+			</f:optionalBlock>  	
+			
+			<f:optionalBlock  name="bmcThresh" field="bmcThresh" title="THRESH" inline="true">			
+				<f:entry field="thresh" >
+					<f:select  id="thresh-${stepid}"   />
+				</f:entry>					
+			</f:optionalBlock>  			
+			
+			<f:optionalBlock name="bmcLsec" field="bmcLsec" title="LSEC" inline="true" ></f:optionalBlock>
+				
+			<f:optionalBlock  name="bmcPlanInc" field="bmcPlanInc" title="INCLUDE PLANs" inline="true" >				
+				<f:textbox field="planInclude"  id="planInc-${stepid}" name="planInclude" placeholder="PLAN_NAME,PLAN_NAME" style="text-transform: uppercase;"/>				   	
+			</f:optionalBlock> 	
+			
+			<f:optionalBlock  name="bmcPlanExc" field="bmcPlanExc" title="EXCLUDE PLANs" inline="true">   
+				<f:textbox field="planExclude"  id="planExc-${stepid}" name="planExclude" placeholder="PLAN_NAME,PLAN_NAME"  style="text-transform: uppercase;"/>				
+			</f:optionalBlock>
+			
+			<f:optionalBlock  name="bmcSortby" field="bmcSortby" title="SORTBY" inline="true">			
+				<f:entry field="sortby" >
+					<f:select  id="sortby-${stepid}"   />
+				</f:entry>			
+			</f:optionalBlock>  	
+					
+			
+			<f:optionalBlock name="bmcCsv" field="bmcCsv" title="CSVRPT" inline="true" ></f:optionalBlock>
+			
+		</f:optionalBlock>	
+		
+		<f:optionalBlock name="bmcFullreport" field="bmcFullreport"  title="FULLREPORT" inline="true" >		
+		</f:optionalBlock> 
+			
+ 	</f:section>
+	<f:section title="Job Information">	  
+	<f:entry title="Account number" field="acctno" >	  
+	  <f:textbox  style="text-transform: uppercase;"/>  
+	</f:entry>
+	
+	<j:set var="jobcardtext">//CFRDEVOP JOB ($${ACCTNO}),'CFA REPORT',NOTIFY=&amp;SYSUID,
+//         CLASS=A,MSGCLASS=X,REGION=0M</j:set>
+	
+	<f:entry title="Job Card" >
+	  <f:textarea field="jobCard" style="font-family: monospace;"  default="${jobcardtext}"/> 
+	</f:entry>
+	
+	 <j:set var="text">$${JOB_CARD}
+//CFRMAIN   EXEC PGM=CFRMAIN,REGION=4M                       
+//STEPLIB   DD DISP=SHR,DSN=$${CFA_LOAD0} 
+//SYSOUT   DD SYSOUT=*                
+//SYSIN    DD *                       
+* comment
+ANALYZE   keywords
+INTERVAL  keywords
+REPORTS   keywords
+END
+/*
+//                                                       
+</j:set>
+	    
+	<f:entry title="JCL" >
+	  <f:textarea field="jclContent" id="jclContent-${stepid}" style="font-family: monospace;"  default="${text}" /> 
+	</f:entry>
+	
+	<f:entry title="Acceptable RC" field="goodRC" >
+    		<f:number default="0" />
+  	</f:entry>
+
+</f:section>  
+
+
+
+</j:jelly>
