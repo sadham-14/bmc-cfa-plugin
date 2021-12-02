@@ -8,7 +8,7 @@
 	<!-- Create a unique id for each Build Step and assign it to each element id suffix to avoid duplicate elements IDs when adding a new build step -->
 	<j:set var="stepid" value="${descriptor.createUniqueId()}" />			
   
-	<script type="text/javascript" src="${rootURL}/plugin/devops4cfa/BuildStepController.js" /> 
+	<script type="text/javascript" src="${rootURL}/plugin/bmc-cfa/BuildStepController.js" /> 
  	  		
 	<f:section title="Connection Options">
 		<f:entry title="Remote system name" field="server" >
