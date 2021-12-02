@@ -24,32 +24,38 @@ END
 //
 ```
 
-
+**Notes!**
 ```
-**Note!**
-Notice that the values for the different keywords are not explicitly displayed in the generated JCL. Instead placeholders (which are marked with ${}) are used.
+Notice that the values for the different keywords are not explicitly displayed in the generated JCL.
+Instead placeholders (which are marked with ${}) are used.
 The placeholders are being internally resolved into variables by Jenkins during the build process.
 Therefore, it’s not recommended to modify the JCL, but it’s possible.
+```
+```
+Script Security Plugin is used, thus an administrator will have to approve the scripts.
 ```
 
 ## Authenticating the SSL Certificate
 1. Distribute the z/OS certificate to the appropriate workstation, and import it into Java KeyStore using keytool.
 2. Issue the following command from the command line:
 ```
-keytool -import -alias <** alias name **> -keystore <** keystore name** > -file <** input file name**>
+keytool -import -alias <alias_name> -keystore <keystore_name > -file <file_name>
 ```
 where:
-- ** alias name ** - alias name of the entry to process
-- ** keystore name ** - the location of the cacerts file , By default it is in jre/lib/security/cacerts
-- ** file name **- file.cer
+- **alias_name** - alias name of the entry to process
+- **keystore_name** - the location of the cacerts file , By default it is in jre/lib/security/cacerts
+- **file_name**- file.cer
 You will be asked for password (which is by default : changeit). Enter the password.
 Restart your Java Virtual Machine or your computer.
 
 ## Installation instructions:
-==========================
-Navigate to Plugin Manager --> Advanced --> Upload Plugin.
-Once the .hpi file is uploaded the plug-in will be ready for use, and it will be available under 'Add build step'.
+TODO
 
-Release Notes:
-==========================
+## Screenshots:
+TODO
+## Job Logs
+TODO
+## Required information for diagnosing problems
+TODO
+## Release Notes:
 The plugin was developed against Jenkins version 2.303.2.
