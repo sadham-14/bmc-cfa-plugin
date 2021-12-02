@@ -241,7 +241,7 @@
 		   					toggleOptionalOperands(cbox,curr_stepid,event);
 		   					if(cbox.name=="bmcAppcheck")
 		   					{
-		   						for( appcheckOpt of optBlck.children[2].children)
+		   						for( appcheckOpt of optBlck.children[3].children)
 		   						{
    		   						appcbox=appcheckOpt.firstChild.firstChild.firstChild;
    	   							toggleOptionalOperands(appcbox,curr_stepid,event);
@@ -525,8 +525,9 @@
 				analyze+=timezone;			
 				
 				tempAppcheck=appcheckAll+ appcheckIncJobs+appcheckExcJobs+ appcheckIncPsbs+appcheckExcPsbs+ appcheckIncPlans+appcheckExcPlans+appcheckCsvrpt+appcheckSortby+appcheckFreq+appcheckThresh+appcheckLsec;
+				tempAppcheck=tempAppcheck.trim(); //remove extra spaces to avoid syntax error
 				if(tempAppcheck!='')
-					appcheck="   APPCHECK=( "+tempAppcheck+")\n";
+					appcheck="   APPCHECK=("+tempAppcheck+")\n";
 				else
 					appcheck="";
 				
@@ -787,7 +788,7 @@
 		{
 			if(chkbox.checked==true)
 			{
-				appcheckAll="ALL ";	
+				appcheckAll="ALL";	
 				
 			}
 			else

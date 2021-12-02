@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import org.jenkinsci.Symbol;
+import org.jenkinsci.plugins.scriptsecurity.sandbox.groovy.SecureGroovyScript;
+import org.jenkinsci.plugins.scriptsecurity.scripts.ApprovalContext;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.QueryParameter;
 import org.kohsuke.stapler.StaplerRequest;
@@ -31,6 +33,7 @@ import hudson.tasks.BuildStepDescriptor;
 import hudson.tasks.Builder;
 import hudson.util.FormValidation;
 import hudson.util.ListBoxModel;
+import hudson.util.Secret;
 import jenkins.tasks.SimpleBuildStep;
 import net.sf.json.JSONObject;
 import org.apache.commons.lang.StringUtils;
@@ -38,7 +41,7 @@ import org.apache.commons.lang.StringUtils;
 
 @Extension // annotation is required when writing a pipeline compatible plugin
 public class BmcCfaBuilder extends Builder implements SimpleBuildStep, Serializable {
-	private String server, port, user, pswd, jclContent, jobCard ,acctno, goodRC;
+	private String server, port, user,  jclContent, jobCard ,acctno, goodRC;
 	private String db2log, db2bsds, limit,skip,maxlogs,prilog,thresh,sortby,maxlogsRc,maxlogsAbend,
 	jobInclude,jobExclude,psbInclude,psbExclude, chkfreqval,planInclude,planExclude,chkfreq;
 	private boolean bmcSlds,bmcDb2log, bmcDb2bsds,bmcLimit,bmcSkip,bmcActiveOlds,bmcImsid,bmcDlilog,bmcMaxlogs,bmcJobname,bmcRecon
@@ -54,10 +57,15 @@ public class BmcCfaBuilder extends Builder implements SimpleBuildStep, Serializa
 		
 	private Start start = new Start("start","","");
 	private Stop stop= new Stop("stop","","") ;
-	private Timezone tz=new Timezone("","gmt");
+	private Timezone tz=new Timezone("","local");
 			
 	private  JCLService zosmf = null;
 	
+	private String groovyScript;
+    private SecureGroovyScript script;
+    
+    private Secret pswd;
+    
 	//private static final long serialVersionUID = 1;
 
 	// to avoid compilation error: annotated classes must have a public no-argument
@@ -84,8 +92,8 @@ public class BmcCfaBuilder extends Builder implements SimpleBuildStep, Serializa
 	 * "DataBoundConstructor")
 	 */
 	@DataBoundConstructor
-	public BmcCfaBuilder(String server, String port, String user, String pswd, String jclContent, String chkfreq,
-			 String jobCard, String acctno, String thresh,String sortby,
+	public BmcCfaBuilder(String server, String port, String user,  String jclContent, String chkfreq,
+			 String jobCard, String acctno, String thresh,String sortby,String pswd,
 			 List<CfaLoadLib> cfaLoadLibs, List<CfaSldsLib> cfaSldsLibs, List<CfaDliLib> cfaDliLibs,List<CfaJobname> cfaJobnames, List <CfaReconSet> cfaReconSets,
 			String goodRC, boolean bmcSlds, boolean bmcDb2log, String db2log, String db2bsds, String limit, String skip, String maxlogs,
 			boolean bmcDb2bsds, boolean bmcLimit, boolean bmcSkip,boolean bmcActiveOlds, boolean bmcImsid,boolean bmcDlilog,boolean bmcMaxlogs,boolean bmcJobname, 
@@ -97,7 +105,7 @@ public class BmcCfaBuilder extends Builder implements SimpleBuildStep, Serializa
 			boolean bmcPlanExc,	String planExclude,	boolean bmcSortby,	boolean bmcCsv,	boolean bmcFullreport
 			) {
 		
-		
+		this.pswd = Secret.fromString(pswd);
 		this.bmcSlds=bmcSlds;		
 		this.bmcDb2log=bmcDb2log;
 		this.cfaLoadLibs = cfaLoadLibs;
@@ -112,7 +120,7 @@ public class BmcCfaBuilder extends Builder implements SimpleBuildStep, Serializa
 		this.server = server;
 		this.port = port;
 		this.user = user;
-		this.pswd = pswd;
+//		this.pswd = pswd;
 		this.jclContent = jclContent;		
 		this.jobCard = jobCard;
 		this.acctno=acctno;		
@@ -175,6 +183,9 @@ public class BmcCfaBuilder extends Builder implements SimpleBuildStep, Serializa
 	 * Getters and Setters !!! important for Configure to be able to read from
 	 * config.xml
 	 */
+	public Secret getPswd() {
+        return pswd;
+    }
 	
 	public String getMaxlogsAbend() {
 		return maxlogsAbend;
@@ -544,7 +555,7 @@ public class BmcCfaBuilder extends Builder implements SimpleBuildStep, Serializa
 	public void setUser(String user) {
 		this.user = user;
 	}
-
+/*
 	public void setPswd(String pswd) {
 		this.pswd = pswd;
 	}
@@ -552,7 +563,7 @@ public class BmcCfaBuilder extends Builder implements SimpleBuildStep, Serializa
 	public String getPswd() {
 		return pswd;
 	}
-
+*/
 	public void setJclContent(String jclContent) {
 		this.jclContent = jclContent;
 	}
@@ -681,7 +692,8 @@ public class BmcCfaBuilder extends Builder implements SimpleBuildStep, Serializa
 		
 		this.zosmf = new JCLService(true);
 
-		zosmf.login(server, port, user, pswd, listener);
+	//	String pswd = ((BmcCfaBuilder.DescriptorImpl)getDescriptor()).getPswd().getPlainText(); 
+		zosmf.login(server, port, user, pswd.getPlainText(), listener);
 
 		/**************************************************************************/
 		/* Submit jobs with z/OS jobs REST interface */
@@ -700,10 +712,22 @@ public class BmcCfaBuilder extends Builder implements SimpleBuildStep, Serializa
 		GroovyShell shell = new GroovyShell(binding);
 		
 		binding.setVariable("ACCTNO", this.acctno.toUpperCase());
-		jc=shell.evaluate("\"\"\"" + this.jobCard + "\"\"\"").toString();
 		
-		binding.setVariable("JOB_CARD", jc.toUpperCase());
-		//binding.setVariable("JOB_CARD", this.jobCard.toUpperCase());
+		//Apply Groovy script security		
+		ClassLoader cl = getClass().getClassLoader();	    
+	    
+	    try 
+	    {
+	        groovyScript="\"\"\"" + this.jobCard + "\"\"\"";
+	        script = new SecureGroovyScript(groovyScript, false, null).configuring(ApprovalContext.create());
+	        jc=script.evaluate(cl, binding).toString();
+		}
+	    catch (Exception e)
+	    {	            
+			e.printStackTrace(listener.error("Failed to evaluate groovy script."));				
+		}
+	     
+		binding.setVariable("JOB_CARD", jc.toUpperCase());		
 		
 		List<CfaLoadLib> LoadList = getCfaLoadLibs();
 		int indx1 = 0;
@@ -810,7 +834,19 @@ public class BmcCfaBuilder extends Builder implements SimpleBuildStep, Serializa
 
 		// enclosing between triple quotes/double-quotes to initialize the value of a
 		// string with multiple lines
-		body = shell.evaluate("\"\"\"" + this.jclContent + "\"\"\"").toString().replace(",,","");
+		//body = shell.evaluate("\"\"\"" + this.jclContent + "\"\"\"").toString().replace(",,","");
+		
+		 try 
+		 {
+			 groovyScript="\"\"\"" + this.jclContent + "\"\"\"";
+		     script = new SecureGroovyScript(groovyScript, false, null).configuring(ApprovalContext.create());
+		     body=script.evaluate(cl, binding).toString().replace(",,","");
+		 }
+		    catch (Exception e)
+		    {	            
+				e.printStackTrace(listener.error("Failed to evaluate groovy script."));				
+			}
+		 
 		body=body.replace("(,", "(");
 		body=body.replace(",)", ")");
 	
@@ -1134,17 +1170,19 @@ public class BmcCfaBuilder extends Builder implements SimpleBuildStep, Serializa
 	// identifying it among extensions of its kind
 	@Symbol("BMC DevOps for CFA Plugin")
 	public static final class DescriptorImpl extends BuildStepDescriptor<Builder> {
-		private int lastEditorId = 0;
-		//private List<DlistOperand> dlistOperands = new ArrayList<DlistOperand>();
-		// @Rule
-		// public JenkinsRule j = new JenkinsRule();
-		//private Jenkins jn = Jenkins.get();
-		
-		// StaplerRequest req = Stapler.getCurrentRequest();
-		
+		private int lastEditorId = 0;		
+		/*
+		  @Override
+	        public boolean configure(StaplerRequest req, JSONObject json) throws FormException {
+	            req.bindJSON(this, json);
+	            save();
+	            return true;
+	        }
+		*/
 		/**
 		 * The default constructor.
 		 */
+		
 		public DescriptorImpl() {
 			super(BmcCfaBuilder.class);
 			load();
@@ -1182,6 +1220,7 @@ public class BmcCfaBuilder extends Builder implements SimpleBuildStep, Serializa
 			
 			return super.newInstance(req, formData);
 		}
+		
 		@Override
 		public boolean configure(StaplerRequest req, JSONObject json) throws FormException {
 			// TODO Auto-generated method stub
@@ -1243,6 +1282,27 @@ public class BmcCfaBuilder extends Builder implements SimpleBuildStep, Serializa
 			
 			return result;
 		}
+
+		public FormValidation doCheckBmcImsid(@QueryParameter boolean value,@QueryParameter boolean bmcSlds) {
+			
+			FormValidation result = null;
+
+			if(value==true && bmcSlds==true)				
+				result=FormValidation.warning("IMSID and SLDS are mutually exclusive");			
+			
+			return result;
+		}
+
+		public FormValidation doCheckBmcSlds(@QueryParameter boolean value,@QueryParameter boolean bmcImsid) {
+			
+			FormValidation result = null;
+
+			if(value==true && bmcImsid)				
+				result=FormValidation.warning("SLDS and IMSID are mutually exclusive");			
+			
+			return result;
+		}
+
 
 		public FormValidation doCheckServer(@QueryParameter String value) {
 			

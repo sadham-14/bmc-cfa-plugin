@@ -1,0 +1,5 @@
+<p>If you specify a value from 1 through 999 followed by an abend code (1 through 4095), Log Analyzer issues a user abend code and terminates the job step if more than the specified number of log data sets would be read. Log Analyzer issues the user abend at the conclusion of the RECON analysis phase without reading any input log data sets.</p>
+
+<p ><b>Example:</b></p>
+<p>If you want Log Analyzer to issue a user abend, with abend code U4000, if more than 120 log data sets would be read, specify the following keyword on the ANALYZE control statement:</p>
+<p>MAXLOGS=(120,4000)</p>

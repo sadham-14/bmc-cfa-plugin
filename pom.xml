@@ -8,7 +8,7 @@
         <relativePath />
     </parent>
     <groupId>com.bmc.ims</groupId>
-    <artifactId>devops4cfa</artifactId>
+    <artifactId>bmc-cfa</artifactId>
     <version>1.0.00</version>
     <packaging>hpi</packaging>
     <properties>
@@ -60,6 +60,11 @@
     		<artifactId>json</artifactId>
     		<version>20171018</version>    		
     	</dependency>
+    	<dependency>
+            <groupId>org.jenkins-ci.plugins</groupId>
+            <artifactId>script-security</artifactId>
+            <version>1.5</version>
+        </dependency>
     </dependencies>
     <build>
     	<pluginManagement>
@@ -204,7 +209,7 @@
 					<version>3.0.0-M3</version>
 					<configuration>
 						<excludes>
-						<exclude>**/InjectedTest*.*</exclude>
+						<!-- exclude>**/InjectedTest*.*</exclude-->
 						
 						</excludes>
 			

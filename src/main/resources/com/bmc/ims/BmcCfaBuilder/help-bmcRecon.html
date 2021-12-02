@@ -1,0 +1,25 @@
+<div> 
+<p>
+You can use the RECON keyword on the ANALYZE control statement to specify the names of a set of RECON data sets to examine during the CFA job. 
+</p>
+<p>If you want CFA to examine multiple sets of RECON data sets, you must specify each set with a separate RECON keyword.  
+</p>
+<p>
+If you specify the RECON keyword, your user ID must have Security Access Facility (SAF) READ access to the RECON data sets.
+</p>
+<p>
+You can specify from one to three data set names. One of the specified data set names must be designated as COPY1 by IMS.
+</p>
+<p>
+<b>Example:</b><br/>
+The RECON data sets for the IMSA system are named IMSA.RECON1 and IMSA.RECON2, and the RECON data sets for the IMSB system are named IMSB.RECON1 and IMSB.RECON2. To examine IMSA and IMSB RECON data sets in the CFA job, specify the following keywords on the ANALYZE control statement:
+<br/> 
+RECON=(IMSA.RECON1, IMSA.RECON2) 
+<br/>
+RECON=(IMSB.RECON1, IMSB.RECON2) 
+<br/>
+<b>Note:</b>
+<br/>
+If you specify the RECON keyword, you must specify the INTERVAL control statement with a START time value and a STOP time value. 
+</p>                                                          
+</div>

@@ -1,0 +1,15 @@
+<div> 
+<p>
+You can use the SLDS keyword on the ANALYZE control statement to identify explicitly an input log data set to use as input to the analysis process.  
+SLDS=<b>(dataSetName,Rvr, unit,volser)</b>
+If you want CFA to read multiple log data sets, specify multiple instances of the SLDS keyword.
+<br/>
+<b>Example:</b>
+IMSA is an IMS version 14.1 system and creates generations of SLDSs that use the naming convention imsid.SLDS.Ddate.GENnnn.
+The SLDSs are cataloged.
+To analyze log records that IMSA wrote to generations 10 through 12 on March 29, 2015, specify the following keywords on the ANALYZE control statement:<br>
+SLDS=(IMSA.SLDS.D2008088.GEN010, R141)<br>
+SLDS=(IMSA.SLDS.D2008088.GEN011, R141)<br>
+SLDS=(IMSA.SLDS.D2008088.GEN012, R141)<br> 
+</p>                                                  
+</div>

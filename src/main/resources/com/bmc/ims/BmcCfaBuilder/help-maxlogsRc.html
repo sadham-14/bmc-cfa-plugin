@@ -1,0 +1,8 @@
+<p>If you specify a value from 1 through 999 followed by literal R and a return code (08 through 99), Log Analyzer issues the specified return code and terminates the job step if more than the specified number of log data sets would be read. Log Analyzer issues the return code at the conclusion of the RECON analysis phase without reading any input log data sets.</p>
+
+<p><b>Example:</b></p>
+<p>
+If you want Log Analyzer to issue return code 16 and terminate the job step if more than 10 log data sets would be read, specify the following keyword on the ANALYZE control statement:
+</p>
+<p>
+MAXLOGS=(10,R16)</p>

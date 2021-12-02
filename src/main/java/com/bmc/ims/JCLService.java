@@ -99,9 +99,8 @@ public class JCLService {
 //			conn.setConnectTimeout(TIMEOUT);
 //			conn.setReadTimeout(TIMEOUT);
 
-			// obviously for production this won't fly, there will need to be a valid
-			// certificate for the server
-			conn.setHostnameVerifier(new TrustAllHostNameVerifier());
+			// Verify a valid certificate for the server
+			conn.setHostnameVerifier(new TrustMatchHostNameVerifier());
 
 			// set http method
 			conn.setRequestMethod("GET");
@@ -554,9 +553,9 @@ public class JCLService {
 		// call zosMF RestAPI
 		try {
 			HttpsURLConnection conn = (HttpsURLConnection) new URL(url).openConnection();
-			conn.setHostnameVerifier(new TrustAllHostNameVerifier() {
+			conn.setHostnameVerifier(new TrustMatchHostNameVerifier() {
 			});
-			// conn.setHostnameVerifier(new TrustAllHostNameVerifier());
+			
 			conn.setRequestMethod(method);
 			rc = this.doGenericRequest(conn, url, method, requestBody, headers, listener);
 			// conn.disconnect();
