@@ -5,7 +5,7 @@ BMC DevOps for CFA automates the process of reporting application checkpoints/co
 
 The plugin is implemented as a job's build step:
 
-![BMC build step](https://github.com/mcohen11/bmc-cfa-plugin/blob/main/src/main/webapp/images/bmc_build_step.jpg)
+![BMC build step](https://github.com/jenkinsci/bmc-cfa-plugin/blob/main/src/main/webapp/images/bmc_build_step.jpg)
 
 It uses z/OSMF REST API to submit the following CFA job to run on z/OS.
 ```
@@ -52,7 +52,8 @@ Restart your Java Virtual Machine or your computer.
 TODO
 
 ## Screenshots:
-TODO
+![BMC CFA Plugin](https://github.com/jenkinsci/bmc-cfa-plugin/blob/main/src/main/webapp/images/cfa_plugin.JPG)
+
 ## Job Logs
 TODO
 ## Required information for diagnosing problems
