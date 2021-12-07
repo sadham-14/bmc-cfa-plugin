@@ -1,25 +1,32 @@
 <div> 
 <p>
  To END processing a range of records that were created on or after a specified date and time, specify the date and time in the format yyyyddd/hhmmssth 
- <br/>
- •	yyyy is the year
- <br/>
- •	ddd is the Julian day of the year
- <br/>
- •	hh is the hour
- <br/>
- •	mm is the minute
- <br/>
- •	ss is the second
- <br/>
- •	t is the tenth of a second
- <br/>
- •	h is the hundredth of a second
- <br/>
- <b>Note:</b>
- <br/>
- •	To use the default value of 0 for the time, omit any trailing portion of the time value (but retain the literal /). 
- <br/>
- •	This time value should match the type that the TIMEZONE keyword on the ANALYZE control statement specifies. For example, if you specify TIMEZONE=LOCAL, specify a local time value for the STOP keyword.                                                           
+ <ul>
+ <li><b>yyyy</b> is the year</li>
+
+ <li><b>ddd </b>is the Julian day of the year</li>
+ 
+ <li><b>	hh</b> is the hour</li>
+ 
+ <li><b>mm </b>is the minute</li>
+ 
+ <li><b>	ss</b> is the second</li>
+ 
+ <li><b>	t </b>is the tenth of a second</li>
+ 
+ <li><b>	h </b>is the hundredth of a second</li>
+ </ul>
+ <h6>Notes:</h6>
+<ul>
+ <li>	To use the default value of 0 for the time, omit any trailing portion of the time value (but retain the literal /).</li> 
+
+<li>	This time value should match the type that the TIMEZONE keyword on the ANALYZE control statement specifies. For example, if you specify TIMEZONE=LOCAL, specify a local time value for the STOP keyword.</li>                                                           
+</ul>
 <p/>
+
+<h6>Example of yyyyddd/hhmmssth</h6>
+
+<p>To process a range of log records that were created at any time before April 13, 2007, specify the following keyword on the INTERVAL control statement:</p>
+
+<p>STOP=2007102/23595999</p>
 </div>

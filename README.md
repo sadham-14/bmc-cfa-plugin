@@ -48,15 +48,41 @@ where:
 You will be asked for password (which is by default : changeit). Enter the password.
 Restart your Java Virtual Machine or your computer.
 
-## Installation instructions:
-TODO
-
 ## Screenshots:
 ![BMC CFA Plugin](https://github.com/jenkinsci/bmc-cfa-plugin/blob/main/src/main/webapp/images/cfa_plugin.JPG)
 
-## Job Logs
-TODO
+For details of the dialog box fields, click the question mark icon next to each field.
+
+For further information regarding a specific field please refer to LUI Manual:
+- [Specifying ANALYZE control statements](https://docs.bmc.com/docs/loganalyzer17/specifying-analyze-control-statements-958587173.html)
+- [Specifying INTERVAL control statements](https://docs.bmc.com/docs/loganalyzer17/specifying-interval-control-statements-958587198.html)
+- [APPCHECK keyword](https://docs.bmc.com/docs/loganalyzer17/appcheck-keyword-958587247.html)
+
+## CFA Job Logs
+The contents of the CFA job spool files are available in Jenkins job workspace.
+\work\workspace\Jenkns_job_name\CFA_JOBNAME-CFA_JOBID\spool_file
+
+![CFA job logs](https://github.com/jenkinsci/bmc-cfa-plugin/blob/main/src/main/webapp/images/workspace.jpg)
+
+For further information regarding a specific report please refer to:
+- [SUMMARY](https://docs.bmc.com/docs/loganalyzer17/using-the-luow-summary-report-958587335.html)
+- [REPRTIMS](https://docs.bmc.com/docs/loganalyzer17/using-the-application-checkpoint-report-958587359.html)
+- [CSVIMS]
+- [SYSOUT](https://docs.bmc.com/docs/loganalyzer17/sysout-dd-statement-958587165.html)
+ 
 ## Required information for diagnosing problems
-TODO
+1.	Identify **plugin version**:
+**Jenkins**->**Manage Jenkins**->**Manage Plugins**->**Installed**
+![BMC plugin version](https://github.com/jenkinsci/bmc-cfa-plugin/blob/main/src/main/webapp/images/plugin_version.)
+2.	**Jenkins Job logs**  
+	* Navigate to  **C:\Users\\*user_name*\\AppData\Local\Jenkins\.jenkins**
+	* Select **jobs** directory
+	* Select the relevant job
+    * Select **builds** directory
+ 	* Select the relevant build number
+	* log
+3. System log: **Jenkins**->**Manage Jenkins**->**System Log**
+4. **config.xml** in C:\Users\\*user_name*\\AppData\Local\Jenkins\.jenkins\jobs\\*job_name*
+
 ## Release Notes:
 The plugin was developed against Jenkins version 2.303.2.

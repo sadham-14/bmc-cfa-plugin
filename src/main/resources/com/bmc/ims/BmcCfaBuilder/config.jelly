@@ -187,11 +187,11 @@
 				 
   			 <f:optionalBlock name="bmcTimezone" field="bmcTimezone" title="TIMEZONE" inline="true"  >				
 				 
-				<f:radioBlock name="tz" title="GMT" id="gmt-${stepid}" checked="${(instance.tz)==null ? true : instance.tz.getValue().equals('gmt')}" value="gmt"></f:radioBlock>				
+				<f:radioBlock name="tz" title="GMT" id="gmt-${stepid}" checked="${(instance.tz)==null ? true : instance.tz.getValue().equals('gmt')}" value="gmt" help="/descriptor/com.bmc.ims.BmcCfaBuilder/help/timezonegmt"></f:radioBlock>				
 				
-				<f:radioBlock name="tz" title="LOCAL" id="local-${stepid}" checked="${instance.tz.getValue().equals('local')}" value="local"></f:radioBlock>				
+				<f:radioBlock name="tz" title="LOCAL" id="local-${stepid}" checked="${instance.tz.getValue().equals('local')}" value="local" help="/descriptor/com.bmc.ims.BmcCfaBuilder/help/timezonelocal" ></f:radioBlock>				
 									       
-				<f:radioBlock  name="tz" title="OFFSET" style="text-transform: uppercase;" checked="${instance.tz.getValue().equals('offset')}"  value="offset"> 
+				<f:radioBlock  name="tz" title="OFFSET" style="text-transform: uppercase;" checked="${instance.tz.getValue().equals('offset')}"  value="offset" help="/descriptor/com.bmc.ims.BmcCfaBuilder/help/timezoneoffset"> 
 					<f:textbox  field="timezoneoffset" name="timezoneoffset" id="tzOffset-${stepid}" placeholder="+hhmm" style="text-transform: uppercase;"/>  
 				</f:radioBlock>   			
 				
@@ -203,7 +203,7 @@
 			
 			<f:radioBlock name="start" title="FIRST" value="first" checked="${(instance.tz)==null ? true : instance.start.getValue().equals('first')}">	</f:radioBlock>			
 												       
-			<f:radioBlock  name="start" title="DATE" value="date" checked="${instance.start.getValue().equals('date')}"> 
+			<f:radioBlock  name="start" title="DATE" value="date" checked="${instance.start.getValue().equals('date')}" help="/descriptor/com.bmc.ims.BmcCfaBuilder/help/startDate"> 
 				<f:textbox field="startDate" name="startDate" placeholder="yyyyddd/hhmmssth" style="text-transform: uppercase;"/>  
 			</f:radioBlock>							
 						       
@@ -214,13 +214,13 @@
 		 </f:optionalBlock>
 
 		 <f:optionalBlock name="bmcStopInterval"  field="bmcStopInterval" title="STOP" inline="true"  >				
-		 	<f:radioBlock name="stop" title="LAST" value="last" checked="${(instance.tz)==null ? true : instance.stop.getValue().equals('last')}"> </f:radioBlock>			
+		 	<f:radioBlock name="stop" title="LAST" value="last" checked="${(instance.tz)==null ? true : instance.stop.getValue().equals('last')}" help="/descriptor/com.bmc.ims.BmcCfaBuilder/help/stopLast"> </f:radioBlock>			
 					       
-			<f:radioBlock  name="stop" title="DATE"  value="date" checked="${instance.stop.getValue().equals('date')}"> 
+			<f:radioBlock  name="stop" title="DATE"  value="date" checked="${instance.stop.getValue().equals('date')}" help="/descriptor/com.bmc.ims.BmcCfaBuilder/help/stopDate"> 
 				<f:textbox field="stopDate"  name="stopDate" placeholder="yyyyddd/hhmmssth" style="text-transform: uppercase;"/>  
 			</f:radioBlock> 
 						       
-			<f:radioBlock  name="stop" title="Log sequence #" value="logseq" checked="${instance.stop.getValue().equals('logseq')}"> 
+			<f:radioBlock  name="stop" title="Log sequence #" value="logseq" checked="${instance.stop.getValue().equals('logseq')}"  help="/descriptor/com.bmc.ims.BmcCfaBuilder/help/stopLseq"> 
 				<f:textbox  field="stoplogSeq" name="stoplogSeq"  style="text-transform: uppercase;"/>  
 			</f:radioBlock>   			
 				

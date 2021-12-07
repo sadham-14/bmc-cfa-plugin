@@ -1,9 +1,5 @@
 <div> 
 <p>
-Automatically determine and display the local time offset from GMT by using the UTC or IMS timestamps in log records within the SLDS.
-<br/>
-<b>Note:</b>
-<br/>
-You cannot specify TIMEZONE=ORIGINAL if you specify START and STOP timestamps on the INTERVAL control statement.
+Use the specified offset instead of the offset that is specified in the z/OS system that is executing the Log Analyzer job. Using this offset, Log Analyzer interprets and displays time values as GMT plus or minus the specified number of hours and minutes. If you want to work in local time but Log Analyzer is processing log records that were created in a different time zone than your own, you might find it easiest to specify TIMEZONE=(-hhmm) or TIMEZONE=(+hhmm).
 </p>                                                  
 </div>
