@@ -73,7 +73,7 @@ For further information regarding a specific report please refer to:
 ## Required information for diagnosing problems
 1.	Identify **plugin version**:
 **Jenkins**->**Manage Jenkins**->**Manage Plugins**->**Installed**
-![BMC plugin version](https://github.com/jenkinsci/bmc-cfa-plugin/blob/main/src/main/webapp/images/plugin_version.)
+![BMC plugin version](https://github.com/jenkinsci/bmc-cfa-plugin/blob/main/src/main/webapp/images/plugin_version.JPG)
 2.	**Jenkins Job logs**  
 	* Navigate to  **C:\Users\\*user_name*\\AppData\Local\Jenkins\.jenkins**
 	* Select **jobs** directory
