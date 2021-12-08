@@ -192,7 +192,7 @@
 				<f:radioBlock name="tz" title="LOCAL" id="local-${stepid}" checked="${instance.tz.getValue().equals('local')}" value="local" help="/descriptor/com.bmc.ims.BmcCfaBuilder/help/timezonelocal" ></f:radioBlock>				
 									       
 				<f:radioBlock  name="tz" title="OFFSET" style="text-transform: uppercase;" checked="${instance.tz.getValue().equals('offset')}"  value="offset" help="/descriptor/com.bmc.ims.BmcCfaBuilder/help/timezoneoffset"> 
-					<f:textbox  field="timezoneoffset" name="timezoneoffset" id="tzOffset-${stepid}" placeholder="+hhmm" style="text-transform: uppercase;"/>  
+					<f:textbox  field="timezoneoffset" name="timezoneoffset" id="tzOffset-${stepid}" placeholder="+hhmm" style="text-transform: uppercase;" value="${instance.tz.getTimezoneoffset()}"  />  
 				</f:radioBlock>   			
 				
 			 </f:optionalBlock>		 
@@ -204,11 +204,11 @@
 			<f:radioBlock name="start" title="FIRST" value="first" checked="${(instance.tz)==null ? true : instance.start.getValue().equals('first')}">	</f:radioBlock>			
 												       
 			<f:radioBlock  name="start" title="DATE" value="date" checked="${instance.start.getValue().equals('date')}" help="/descriptor/com.bmc.ims.BmcCfaBuilder/help/startDate"> 
-				<f:textbox field="startDate" name="startDate" placeholder="yyyyddd/hhmmssth" style="text-transform: uppercase;"/>  
+				<f:textbox field="startDate" name="startDate" value="${instance.start.getStartDate()}" placeholder="yyyyddd/hhmmssth" style="text-transform: uppercase;"/>  
 			</f:radioBlock>							
 						       
-			<f:radioBlock  name="start" title="Log sequence #"  value="logseq" checked="${instance.start.getValue().equals('logseq')}"> 
-					<f:textbox  field="startlogSeq" name="startlogSeq"  style="text-transform: uppercase;"/>  
+			<f:radioBlock  name="start" title="Log sequence #"  value="logseq" checked="${instance.start.getValue().equals('logseq')}" help="/descriptor/com.bmc.ims.BmcCfaBuilder/help/startLseq"> 
+					<f:textbox  field="startlogSeq" name="startlogSeq"  style="text-transform: uppercase;" value="${instance.start.getStartlogSeq()}"/>  
 			</f:radioBlock>   			
 				
 		 </f:optionalBlock>
@@ -217,11 +217,11 @@
 		 	<f:radioBlock name="stop" title="LAST" value="last" checked="${(instance.tz)==null ? true : instance.stop.getValue().equals('last')}" help="/descriptor/com.bmc.ims.BmcCfaBuilder/help/stopLast"> </f:radioBlock>			
 					       
 			<f:radioBlock  name="stop" title="DATE"  value="date" checked="${instance.stop.getValue().equals('date')}" help="/descriptor/com.bmc.ims.BmcCfaBuilder/help/stopDate"> 
-				<f:textbox field="stopDate"  name="stopDate" placeholder="yyyyddd/hhmmssth" style="text-transform: uppercase;"/>  
+				<f:textbox field="stopDate"  name="stopDate" placeholder="yyyyddd/hhmmssth" style="text-transform: uppercase;" value="${instance.stop.getStopDate()}"/>  
 			</f:radioBlock> 
 						       
 			<f:radioBlock  name="stop" title="Log sequence #" value="logseq" checked="${instance.stop.getValue().equals('logseq')}"  help="/descriptor/com.bmc.ims.BmcCfaBuilder/help/stopLseq"> 
-				<f:textbox  field="stoplogSeq" name="stoplogSeq"  style="text-transform: uppercase;"/>  
+				<f:textbox  field="stoplogSeq" name="stoplogSeq"  style="text-transform: uppercase;" value="${instance.stop.getStoplogSeq()}"/>  
 			</f:radioBlock>   			
 				
 		 </f:optionalBlock>		 		 
