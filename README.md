@@ -41,11 +41,12 @@ The placeholders are being internally resolved into variables by Jenkins during 
 Therefore, it’s not recommended to modify the JCL, but it’s possible.
 ```
 ```
-Script Security Plugin is used, thus an administrator will have to approve the scripts, otherwise a security exception is thrown:
+Script Security Plugin is used, thus an administrator will have to approve the scripts.
+Otherwise a security exception is thrown:
 ERROR: Failed to evaluate groovy script.
 org.jenkinsci.plugins.scriptsecurity.scripts.UnapprovedUsageException: script not yet approved for use
 
-To approve go to Manage Jenkins -> In-process Script Approval
+An administrator willhave to approve via Manage Jenkins -> In-process Script Approval
 ```
 ![ In-process Script Approval](https://github.com/jenkinsci/bmc-cfa-plugin/blob/main/src/main/webapp/images/In_process_script_approv.JPG)
 ![ Script Approval](https://github.com/jenkinsci/bmc-cfa-plugin/blob/main/src/main/webapp/images/ScriptApproval.JPG)
