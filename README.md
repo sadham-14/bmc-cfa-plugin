@@ -76,8 +76,8 @@ For further information regarding a specific field please refer to LUI Manual:
 - [APPCHECK keyword](https://docs.bmc.com/docs/loganalyzer17/appcheck-keyword-958587247.html)
 
 ## CFA Job Logs <a name="joblogs"></a>
-The contents of the CFA job spool files are available in Jenkins job workspace.
-\work\workspace\Jenkns_job_name\CFA_JOBNAME-CFA_JOBID\spool_file
+The contents of the CFA job spool files are available in Jenkins job **workspace** in the following format:
+**<CFA_JOBNAME-CFA_JOBID>\<SPOOL_FILENAME>**
 
 ![CFA job logs](https://github.com/jenkinsci/bmc-cfa-plugin/blob/main/src/main/webapp/images/workspace.jpg)
 

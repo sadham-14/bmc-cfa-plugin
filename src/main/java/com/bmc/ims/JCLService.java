@@ -100,7 +100,7 @@ public class JCLService {
 //			conn.setReadTimeout(TIMEOUT);
 
 			// Verify a valid certificate for the server
-			conn.setHostnameVerifier(new TrustMatchHostNameVerifier());
+			//conn.setHostnameVerifier(new TrustMatchHostNameVerifier());
 
 			// set http method
 			conn.setRequestMethod("GET");
@@ -553,8 +553,7 @@ public class JCLService {
 		// call zosMF RestAPI
 		try {
 			HttpsURLConnection conn = (HttpsURLConnection) new URL(url).openConnection();
-			conn.setHostnameVerifier(new TrustMatchHostNameVerifier() {
-			});
+			//conn.setHostnameVerifier(new TrustMatchHostNameVerifier() {});
 			
 			conn.setRequestMethod(method);
 			rc = this.doGenericRequest(conn, url, method, requestBody, headers, listener);

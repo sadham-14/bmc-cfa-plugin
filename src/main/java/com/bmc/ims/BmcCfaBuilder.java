@@ -19,6 +19,8 @@ import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.QueryParameter;
 import org.kohsuke.stapler.StaplerRequest;
 import org.kohsuke.stapler.bind.JavaScriptMethod;
+import org.kohsuke.stapler.verb.POST;
+
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
 import hudson.EnvVars;
@@ -34,6 +36,7 @@ import hudson.tasks.Builder;
 import hudson.util.FormValidation;
 import hudson.util.ListBoxModel;
 import hudson.util.Secret;
+import jenkins.model.Jenkins;
 import jenkins.tasks.SimpleBuildStep;
 import net.sf.json.JSONObject;
 import org.apache.commons.lang.StringUtils;
@@ -59,8 +62,6 @@ public class BmcCfaBuilder extends Builder implements SimpleBuildStep, Serializa
 	private Stop stop= new Stop("stop","","") ;
 	private Timezone tz=new Timezone("","local");
 			
-	private  JCLService zosmf = null;
-	
 	private String groovyScript;
     private SecureGroovyScript script;
     
@@ -689,8 +690,7 @@ public class BmcCfaBuilder extends Builder implements SimpleBuildStep, Serializa
 		listener.getLogger().println("port: " + port);	
 		
 			
-		
-		this.zosmf = new JCLService(true);
+		JCLService zosmf = new JCLService(true);
 
 	//	String pswd = ((BmcCfaBuilder.DescriptorImpl)getDescriptor()).getPswd().getPlainText(); 
 		zosmf.login(server, port, user, pswd.getPlainText(), listener);
@@ -707,9 +707,8 @@ public class BmcCfaBuilder extends Builder implements SimpleBuildStep, Serializa
 
 		// Using Groovy script to do string interpolation and resolve placeholders
 		// marked with ${}
-		// share data between the java application and the groovy script using binding
-		Binding binding = new Binding();
-		GroovyShell shell = new GroovyShell(binding);
+		// share data between the java application and the Groovy script using binding
+		Binding binding = new Binding();		
 		
 		binding.setVariable("ACCTNO", this.acctno.toUpperCase());
 		
@@ -719,7 +718,7 @@ public class BmcCfaBuilder extends Builder implements SimpleBuildStep, Serializa
 	    try 
 	    {
 	        groovyScript="\"\"\"" + this.jobCard + "\"\"\"";
-	        script = new SecureGroovyScript(groovyScript, false, null).configuring(ApprovalContext.create());
+	        script = new SecureGroovyScript(groovyScript, false, null).configuringWithKeyItem();
 	        jc=script.evaluate(cl, binding).toString();
 		}
 	    catch (Exception e)
@@ -1258,17 +1257,15 @@ public class BmcCfaBuilder extends Builder implements SimpleBuildStep, Serializa
 			// TODO Auto-generated method stub
 			return super.getId();
 		}
-/*
-		public List<DlistOperand> getDlistOperands() {
-			return dlistOperands;
-		}
-*/
+
 		//Form validation
-		
+		@POST
 		public FormValidation doCheckBmcRecon(@QueryParameter boolean value,@QueryParameter boolean bmcStartInterval, @QueryParameter boolean bmcStopInterval) {
 			
 			FormValidation result = null;
 
+			Jenkins.get().checkPermission(Jenkins.ADMINISTER);
+			
 			if(value==true)
 			{
 				if(bmcStartInterval==false &&  bmcStopInterval==false ) 
@@ -1282,17 +1279,21 @@ public class BmcCfaBuilder extends Builder implements SimpleBuildStep, Serializa
 			
 			return result;
 		}
-
+		
+		@POST
 		public FormValidation doCheckBmcImsid(@QueryParameter boolean value,@QueryParameter boolean bmcSlds) {
 			
 			FormValidation result = null;
 
+			Jenkins.get().checkPermission(Jenkins.ADMINISTER);
+			
 			if(value==true && bmcSlds==true)				
 				result=FormValidation.warning("IMSID and SLDS are mutually exclusive");			
 			
 			return result;
 		}
 
+		@POST
 		public FormValidation doCheckBmcSlds(@QueryParameter boolean value,@QueryParameter boolean bmcImsid) {
 			
 			FormValidation result = null;
@@ -1304,10 +1305,13 @@ public class BmcCfaBuilder extends Builder implements SimpleBuildStep, Serializa
 		}
 
 
+		@POST
 		public FormValidation doCheckServer(@QueryParameter String value) {
 			
 			FormValidation result = null;
 
+			Jenkins.get().checkPermission(Jenkins.ADMINISTER);
+			 
 			String tempValue = StringUtils.trimToEmpty(value);
 			if (tempValue.isEmpty())
 			{
@@ -1320,11 +1324,13 @@ public class BmcCfaBuilder extends Builder implements SimpleBuildStep, Serializa
 			return result;
 		}
 		
-			
+		@POST	
 		public FormValidation doCheckPort(@QueryParameter String value) 
 		{					
 			FormValidation result = null;
 
+			Jenkins.get().checkPermission(Jenkins.ADMINISTER);
+			
 			String tempValue = StringUtils.trimToEmpty(value);
 			if (tempValue.isEmpty())			
 				result = FormValidation.error("z/OSMF Port number is required!");				
@@ -1332,10 +1338,13 @@ public class BmcCfaBuilder extends Builder implements SimpleBuildStep, Serializa
 			return result;
 		}
 		
+		@POST
 		public FormValidation doCheckUser(@QueryParameter String value) 
 		{					
 			FormValidation result = null;
 
+			Jenkins.get().checkPermission(Jenkins.ADMINISTER);
+			
 			String tempValue = StringUtils.trimToEmpty(value);
 			if (tempValue.isEmpty())			
 				result = FormValidation.error("User name is required!");				
@@ -1343,10 +1352,13 @@ public class BmcCfaBuilder extends Builder implements SimpleBuildStep, Serializa
 			return result;
 		}
 		
+		@POST
 		public FormValidation doCheckPswd(@QueryParameter String value) 
 		{					
 			FormValidation result = null;
 
+			Jenkins.get().checkPermission(Jenkins.ADMINISTER);
+			
 			String tempValue = StringUtils.trimToEmpty(value);
 			if (tempValue.isEmpty())			
 				result = FormValidation.error("Password is required!");				
@@ -1354,16 +1366,20 @@ public class BmcCfaBuilder extends Builder implements SimpleBuildStep, Serializa
 			return result;
 		}
 		
+		@POST
 		public FormValidation doCheckLib(@QueryParameter String value) 
 		{					
 			FormValidation result = null;
 
+			Jenkins.get().checkPermission(Jenkins.ADMINISTER);
+			
 			String tempValue = StringUtils.trimToEmpty(value);
 			if (tempValue.isEmpty())			
 				result = FormValidation.error("STEPLIB is required!");				
 			
 			return result;
 		}
+		
 		//doFill{fieldname}Items		
 		
 		public ListBoxModel doFillPrilogItems() {
