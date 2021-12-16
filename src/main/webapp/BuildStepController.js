@@ -688,10 +688,10 @@
 			  			appcheckExcPlans=toggleAppcheckOptions(chkbox,"bmcPlanExc",stepid);
 			  			break;
 			  		case "bmcThresh":
-			  			appcheckThresh=(chkbox.checked==true)? "THRESH=${THRESH} " : "";
+			  			appcheckThresh=(chkbox.checked==true)? "THRESH = ${THRESH} " : "";
 			  			break;
 			  		case "bmcSortby":
-			  			appcheckSortby=(chkbox.checked==true)? "SORTBY=${SORTBY} " : "";
+			  			appcheckSortby=(chkbox.checked==true)? "SORTBY = ${SORTBY} " : "";
 			  			break;
 			  		case "bmcCsv":
 			  			toggleCsvrpt(chkbox);
@@ -747,15 +747,15 @@
 			if(chkbox.checked==true)
 			{
 				if(document.getElementById('less-'+stepid).checked==true)
-					appcheckFreq= "CHKFREQ<${CHKFREQ} ";
+					appcheckFreq= "CHKFREQ < ${CHKFREQ} ";
 				else if(document.getElementById('lessEqual-'+stepid).checked==true)
-					appcheckFreq= "CHKFREQ<=${CHKFREQ} ";
+					appcheckFreq= "CHKFREQ <= ${CHKFREQ} ";
 				else if(document.getElementById('great-'+stepid).checked==true)
-					appcheckFreq= "CHKFREQ>${CHKFREQ} ";
+					appcheckFreq= "CHKFREQ > ${CHKFREQ} ";
 				else if(document.getElementById('greatEqu-'+stepid).checked==true)
-					appcheckFreq= "CHKFREQ>=${CHKFREQ} ";
+					appcheckFreq= "CHKFREQ >= ${CHKFREQ} ";
 				else if(document.getElementById('equ-'+stepid).checked==true)
-					appcheckFreq= "CHKFREQ=${CHKFREQ} ";
+					appcheckFreq= "CHKFREQ = ${CHKFREQ} ";
 				
 			}
 			else
@@ -768,15 +768,15 @@
 			if(tmp.name=="bmcChkfreq" && tmp.checked==true)			
 			{
 				if(rad.value=="Less")
-					appcheckFreq= "CHKFREQ<${CHKFREQ} ";
+					appcheckFreq= "CHKFREQ < ${CHKFREQ} ";
 				else if(rad.value=="LessEqual")
-					appcheckFreq= "CHKFREQ<=${CHKFREQ} ";
+					appcheckFreq= "CHKFREQ <= ${CHKFREQ} ";
 				else if(rad.value=="Greater")
-					appcheckFreq= "CHKFREQ>${CHKFREQ} ";
+					appcheckFreq= "CHKFREQ > ${CHKFREQ} ";
 				else if(rad.value=="GreaterEqual")
-					appcheckFreq= "CHKFREQ>=${CHKFREQ} ";
+					appcheckFreq= "CHKFREQ >= ${CHKFREQ} ";
 				else if(rad.value=="Equ")
-					appcheckFreq= "CHKFREQ=${CHKFREQ} ";
+					appcheckFreq= "CHKFREQ = ${CHKFREQ} ";
 			}
 			else
 				appcheckFreq="";

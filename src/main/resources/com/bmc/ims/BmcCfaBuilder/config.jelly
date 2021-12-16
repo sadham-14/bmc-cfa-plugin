@@ -180,16 +180,16 @@
 			</f:optionalBlock> 
   			
   			 <f:optionalBlock name="bmcPrilog" field="bmcPrilog"  title="PRILOG" inline="true" >
-				 <f:entry field="prilog" title="">
-					 <f:select name="prilog" value="" onfocus="this.oldvalue = this.value;" >	</f:select>	
+				 <f:entry field="prilog" >
+					 <f:select name="prilog"  >	</f:select>	
 				 </f:entry> 
 			</f:optionalBlock>
 				 
   			 <f:optionalBlock name="bmcTimezone" field="bmcTimezone" title="TIMEZONE" inline="true"  >				
 				 
-				<f:radioBlock name="tz" title="GMT" id="gmt-${stepid}" checked="${(instance.tz)==null ? true : instance.tz.getValue().equals('gmt')}" value="gmt" help="/descriptor/com.bmc.ims.BmcCfaBuilder/help/timezonegmt"></f:radioBlock>				
+				<f:radioBlock name="tz" title="GMT" id="gmt-${stepid}" checked="${ instance.tz.getValue().equals('gmt')}" value="gmt" help="/descriptor/com.bmc.ims.BmcCfaBuilder/help/timezonegmt"></f:radioBlock>				
 				
-				<f:radioBlock name="tz" title="LOCAL" id="local-${stepid}" checked="${instance.tz.getValue().equals('local')}" value="local" help="/descriptor/com.bmc.ims.BmcCfaBuilder/help/timezonelocal" ></f:radioBlock>				
+				<f:radioBlock name="tz" title="LOCAL" id="local-${stepid}" checked="${(instance.tz)==null ? true : instance.tz.getValue().equals('local')}" value="local" help="/descriptor/com.bmc.ims.BmcCfaBuilder/help/timezonelocal" ></f:radioBlock>				
 									       
 				<f:radioBlock  name="tz" title="OFFSET" style="text-transform: uppercase;" checked="${instance.tz.getValue().equals('offset')}"  value="offset" help="/descriptor/com.bmc.ims.BmcCfaBuilder/help/timezoneoffset"> 
 					<f:textbox  field="timezoneoffset" name="timezoneoffset" id="tzOffset-${stepid}" placeholder="+hhmm" style="text-transform: uppercase;" value="${instance.tz.getTimezoneoffset()}"  />  
@@ -201,7 +201,7 @@
  	<f:section title="INTERVAL Keywords"> 
  		<f:optionalBlock name="bmcStartInterval" field="bmcStartInterval" title="START" inline="true" >				 	
 			
-			<f:radioBlock name="start" title="FIRST" value="first" checked="${(instance.tz)==null ? true : instance.start.getValue().equals('first')}">	</f:radioBlock>			
+			<f:radioBlock name="start" title="FIRST" value="first" checked="${(instance.tz)==null ? true : instance.start.getValue().equals('first')}" help="/descriptor/com.bmc.ims.BmcCfaBuilder/help/startFirst">	</f:radioBlock>			
 												       
 			<f:radioBlock  name="start" title="DATE" value="date" checked="${instance.start.getValue().equals('date')}" help="/descriptor/com.bmc.ims.BmcCfaBuilder/help/startDate"> 
 				<f:textbox field="startDate" name="startDate" value="${instance.start.getStartDate()}" placeholder="yyyyddd/hhmmssth" style="text-transform: uppercase;"/>  

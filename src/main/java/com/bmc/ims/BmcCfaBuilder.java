@@ -49,7 +49,7 @@ public class BmcCfaBuilder extends Builder implements SimpleBuildStep, Serializa
 	jobInclude,jobExclude,psbInclude,psbExclude, chkfreqval,planInclude,planExclude,chkfreq;
 	private boolean bmcSlds,bmcDb2log, bmcDb2bsds,bmcLimit,bmcSkip,bmcActiveOlds,bmcImsid,bmcDlilog,bmcMaxlogs,bmcJobname,bmcRecon
 	,bmcTimezone,bmcStartInterval,bmcStopInterval,bmcJobInc,bmcJobExc,bmcPsbInc,bmcPsbExc,bmcThresh,bmcChkfreq,bmcAppcheck,bmcAll,bmcLsec,	
-	bmcPlanInc,	bmcPlanExc,	bmcSortby,bmcCsv,bmcFullreport;
+	bmcPlanInc,	bmcPlanExc,	bmcSortby,bmcCsv,bmcFullreport,bmcPrilog;
 	
 	private  List<CfaLoadLib> cfaLoadLibs = new ArrayList<CfaLoadLib>();
 	private  List<CfaSldsLib> cfaSldsLibs = new ArrayList<CfaSldsLib>();
@@ -60,7 +60,7 @@ public class BmcCfaBuilder extends Builder implements SimpleBuildStep, Serializa
 		
 	private Start start = new Start("start","","");
 	private Stop stop= new Stop("stop","","") ;
-	private Timezone tz=new Timezone("","local");
+	private Timezone tz=new Timezone("local","");
 			
 	private String groovyScript;
     private SecureGroovyScript script;
@@ -94,14 +94,14 @@ public class BmcCfaBuilder extends Builder implements SimpleBuildStep, Serializa
 	 */
 	@DataBoundConstructor
 	public BmcCfaBuilder(String server, String port, String user,  String jclContent, String chkfreq,
-			 String jobCard, String acctno, String thresh,String sortby,String pswd,
+			 String jobCard, String acctno, String thresh,String sortby,String pswd,String prilog,
 			 List<CfaLoadLib> cfaLoadLibs, List<CfaSldsLib> cfaSldsLibs, List<CfaDliLib> cfaDliLibs,List<CfaJobname> cfaJobnames, List <CfaReconSet> cfaReconSets,
 			String goodRC, boolean bmcSlds, boolean bmcDb2log, String db2log, String db2bsds, String limit, String skip, String maxlogs,
 			boolean bmcDb2bsds, boolean bmcLimit, boolean bmcSkip,boolean bmcActiveOlds, boolean bmcImsid,boolean bmcDlilog,boolean bmcMaxlogs,boolean bmcJobname, 
 			List<CfaImsid> cfaImsids,boolean bmcRecon,boolean bmcTimezone,boolean bmcStartInterval, boolean bmcStopInterval,
 			Start start, Stop stop, Timezone tz, 
 			String jobInclude,String jobExclude,String psbInclude, String psbExclude,String maxlogsRc, String maxlogsAbend,
-			boolean bmcJobInc, boolean bmcJobExc,boolean bmcPsbInc, boolean bmcPsbExc,boolean bmcChkfreq, boolean bmcThresh,
+			boolean bmcJobInc, boolean bmcJobExc,boolean bmcPsbInc, boolean bmcPsbExc,boolean bmcChkfreq, boolean bmcThresh, boolean bmcPrilog,
 			boolean bmcAppcheck, boolean bmcAll,boolean bmcLsec, String chkfreqval ,boolean bmcPlanInc,String planInclude,
 			boolean bmcPlanExc,	String planExclude,	boolean bmcSortby,	boolean bmcCsv,	boolean bmcFullreport
 			) {
@@ -139,6 +139,8 @@ public class BmcCfaBuilder extends Builder implements SimpleBuildStep, Serializa
 		this.bmcDlilog=bmcDlilog;
 		this.bmcActiveOlds=bmcActiveOlds;		
 		
+		this.prilog=prilog;
+		this.bmcPrilog=bmcPrilog;
 		this.thresh=thresh;
 		this.bmcThresh=bmcThresh;
 		this.sortby=sortby;		
@@ -376,6 +378,20 @@ public class BmcCfaBuilder extends Builder implements SimpleBuildStep, Serializa
 	}
 	public String getSortby() {
 		return sortby;
+	}
+	
+	public String getPrilog() {
+		return prilog;
+	}
+	public void setPrilog(String prilog) {
+		this.prilog = prilog;
+	}
+	
+	public boolean isBmcPrilog() {
+		return bmcPrilog;
+	}
+	public void setBmcPrilog(boolean bmcPrilog) {
+		this.bmcPrilog = bmcPrilog;
 	}
 	public void setThresh(String thresh) {
 		this.thresh = thresh;
