@@ -1,8 +1,11 @@
 # Note: additional setup is required, see https://www.jenkins.io/redirect/continuous-delivery-of-plugins
 
 name: cd
+
+# Controls when the workflow will run
 on:
   workflow_dispatch:
+  # Triggers the workflow on code changes in a repository
   check_run:
     types:
       - completed
