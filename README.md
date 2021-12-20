@@ -10,7 +10,7 @@
 7. [Required information for diagnosing problems](#diag)
 
 ## Introduction <a name="introduction"></a>
-BMC DevOps for CFA automates the process of reporting application checkpoints/commit information from IMS and DB2 logs. It can be used to illustrate the impact of changes made by application programs on IMS databases, by comparing CFA reports before and after the implemented changes.
+BMC DevOps for Checkpoint/Commit Frequency Analyzer (CFA) automates the process of reporting application checkpoints/commit information from IMS and DB2 logs. It can be used to illustrate the impact of changes made by application programs on IMS databases, by comparing CFA reports before and after the implemented changes.
 
 The plugin is implemented as a job's build step:
 
@@ -70,7 +70,7 @@ Restart your Java Virtual Machine or your computer.
 
 For details of the dialog box fields, click the question mark icon next to each field.
 
-For further information regarding a specific field please refer to LUI Manual:
+For further information regarding a specific field please refer to BMC AMI Log Analyzer for IMS documentation:
 - [Specifying ANALYZE control statements](https://docs.bmc.com/docs/loganalyzer17/specifying-analyze-control-statements-958587173.html)
 - [Specifying INTERVAL control statements](https://docs.bmc.com/docs/loganalyzer17/specifying-interval-control-statements-958587198.html)
 - [APPCHECK keyword](https://docs.bmc.com/docs/loganalyzer17/appcheck-keyword-958587247.html)
@@ -84,7 +84,6 @@ The contents of the CFA job spool files are available in Jenkins job **workspace
 For further information regarding a specific report please refer to:
 - [SUMMARY](https://docs.bmc.com/docs/loganalyzer17/using-the-luow-summary-report-958587335.html)
 - [REPRTIMS](https://docs.bmc.com/docs/loganalyzer17/using-the-application-checkpoint-report-958587359.html)
-- [CSVIMS]
 - [SYSOUT](https://docs.bmc.com/docs/loganalyzer17/sysout-dd-statement-958587165.html)
 
 ## REPRTDB2 - Commit Frequency Report for DB2 <a name="db2rpt"></a>

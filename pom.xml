@@ -9,11 +9,11 @@
     </parent>
     <groupId>com.bmc.ims</groupId>
     <artifactId>bmc-cfa</artifactId>
-    <version>1.0.00</version>
+    <version>${revision}${changelist}</version>
     <packaging>hpi</packaging>
     <properties>
-        <!-- revision>1.0</revision-->
-        <!-- changelist>-SNAPSHOT</changelist-->
+        <revision>1.0.00</revision>
+        <changelist>-SNAPSHOT</changelist>
         <jenkins.version>2.303.2</jenkins.version>
         <java.level>8</java.level>
             </properties>
