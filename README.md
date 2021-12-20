@@ -34,20 +34,19 @@ END
 ```
 
 **Notes!**
-```
-Notice that the values for the different keywords are not explicitly displayed in the generated JCL.
+
+- Notice that the values for the different keywords are not explicitly displayed in the generated JCL.
 Instead placeholders (which are marked with ${}) are used.
 The placeholders are being internally resolved into variables by Jenkins during the build process.
 Therefore, it’s not recommended to modify the JCL, but it’s possible.
-```
-```
-Script Security Plugin is used, thus an administrator will have to approve the scripts.
+
+- **Script Security Plugin** is used, thus an administrator will have to approve the scripts.
 Otherwise a security exception is thrown:
 ERROR: Failed to evaluate groovy script.
 org.jenkinsci.plugins.scriptsecurity.scripts.UnapprovedUsageException: script not yet approved for use
 
-An administrator will have to approve via Manage Jenkins -> In-process Script Approval
-```
+  An administrator will have to approve via Manage Jenkins -> In-process Script Approval
+
 ![ In-process Script Approval](https://github.com/jenkinsci/bmc-cfa-plugin/blob/main/src/main/webapp/images/In_process_script_approv.JPG)
 ![ Script Approval](https://github.com/jenkinsci/bmc-cfa-plugin/blob/main/src/main/webapp/images/ScriptApproval.JPG)
 
