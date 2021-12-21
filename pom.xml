@@ -24,8 +24,13 @@
       		<name>MIT License</name>
       		<url>http://opensource.org/licenses/MIT</url>
     	</license>
- 	</licenses>
-  
+    </licenses>
+  <scm>
+    <connection>scm:git:git://github.com/${gitHubRepo}.git</connection>
+    <developerConnection>scm:git:git@github.com:${gitHubRepo}.git</developerConnection>
+    <tag>${scmTag}</tag>
+    <url>https://github.com/${gitHubRepo}</url>
+</scm>
     <dependencyManagement>
         <dependencies>
             <dependency>
