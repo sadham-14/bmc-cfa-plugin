@@ -1,4 +1,4 @@
-# BMC DevOps for Checkpoint/Commit Frequency Analyzer   
+# BMC DevOps for Checkpoint/Commit Frequency Analyzer    
 
 # Table of contents
 1. [Introduction](#introduction)
