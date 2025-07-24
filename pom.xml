@@ -1,23 +1,24 @@
+
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.jenkins-ci.plugins</groupId>
         <artifactId>plugin</artifactId>
-        <version>4.16</version>
+        <version>4.52</version>
         <relativePath />
     </parent>
     <groupId>com.bmc.ims</groupId>
-    <artifactId>bmc-cfa</artifactId>
-    <version>${revision}${changelist}</version>
+    <artifactId>bmc-cfa</artifactId>    
+    <version>${changelist}</version>
     <packaging>hpi</packaging>
-    <properties>
-        <revision>1.0.00</revision>
-        <changelist>-SNAPSHOT</changelist>
-        <jenkins.version>2.303.2</jenkins.version>
-        <java.level>8</java.level>
-            </properties>
-    <name>BMC DevOps for CFA</name>
+    <properties>	
+        <changelist>999999-SNAPSHOT</changelist>
+        <jenkins.version>2.387.2</jenkins.version>
+        <java.level>11</java.level>
+        <gitHubRepo>jenkinsci/${project.artifactId}-plugin</gitHubRepo>
+     </properties>
+    <name>BMC AMI DevOps for Application Checkpoint Analysis</name>
     
     <licenses>
     	<license>
@@ -28,7 +29,7 @@
   <scm>
     <connection>scm:git:git://github.com/${gitHubRepo}.git</connection>
     <developerConnection>scm:git:git@github.com:${gitHubRepo}.git</developerConnection>
-    <tag>${scmTag}</tag>
+    <tag>bmc-cfa-1.0.01</tag>
     <url>https://github.com/${gitHubRepo}</url>
 </scm>
     <dependencyManagement>
@@ -42,10 +43,6 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
-    
-
-    
 
     <repositories>
         <repository>
@@ -70,145 +67,80 @@
             <artifactId>script-security</artifactId>
             <version>1.78</version>
         </dependency>
-    </dependencies>
-    <build>
+		<dependency>
+			<groupId>io.jenkins.plugins</groupId>
+			<artifactId>echarts-api</artifactId>
+			<version>4.6.0-8</version>
+		</dependency>
+		<dependency>
+			<groupId>io.jenkins.plugins</groupId>
+			<artifactId>bootstrap4-api</artifactId>
+			<version>4.4.1-10</version>
+		</dependency>
+		<dependency>
+			<groupId>io.jenkins.plugins</groupId>
+			<artifactId>data-tables-api</artifactId>
+			<version>1.10.20-13</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>[2.12.6.1,)</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.errorprone</groupId>
+			<artifactId>error_prone_annotations</artifactId>
+			<version>2.4.0</version>
+		</dependency>
+
+
+	</dependencies>
+    <build>    	
     	<pluginManagement>
     		<plugins>
-    			<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
-    			<plugin>
-    				<groupId>org.eclipse.m2e</groupId>
-    				<artifactId>lifecycle-mapping</artifactId>
-    				<version>1.0.0</version>
-    				<configuration>
-    					<lifecycleMappingMetadata>
-    						<pluginExecutions>
-    							<pluginExecution>
-    								<pluginExecutionFilter>
-    									<groupId>
-    										org.jenkins-ci.tools
-    									</groupId>
-    									<artifactId>
-    										maven-hpi-plugin
-    									</artifactId>
-    									<versionRange>
-    										[3.17,)
-    									</versionRange>
-    									<goals>
-    										<goal>validate</goal>
-    										<goal>insert-test</goal>
-    										<goal>validate-hpi</goal>
-    										<goal>test-hpl</goal>
-    										<goal>
-    											resolve-test-dependencies
-    										</goal>
-    									</goals>
-    								</pluginExecutionFilter>
-    								<action>
-    									<ignore></ignore>
-    								</action>
-    							</pluginExecution>
-    							<pluginExecution>
-    								<pluginExecutionFilter>
-    									<groupId>
-    										org.codehaus.gmavenplus
-    									</groupId>
-    									<artifactId>
-    										gmavenplus-plugin
-    									</artifactId>
-    									<versionRange>
-    										[1.12.1,)
-    									</versionRange>
-    									<goals>
-    										<goal>addTestSources</goal>
-    									</goals>
-    								</pluginExecutionFilter>
-    								<action>
-    									<ignore></ignore>
-    								</action>
-    							</pluginExecution>
-    							<pluginExecution>
-    								<pluginExecutionFilter>
-    									<groupId>
-    										org.apache.maven.plugins
-    									</groupId>
-    									<artifactId>
-    										maven-antrun-plugin
-    									</artifactId>
-    									<versionRange>
-    										[3.0.0,)
-    									</versionRange>
-    									<goals>
-    										<goal>run</goal>
-    									</goals>
-    								</pluginExecutionFilter>
-    								<action>
-    									<ignore></ignore>
-    								</action>
-    							</pluginExecution>
-    							<pluginExecution>
-    								<pluginExecutionFilter>
-    									<groupId>
-    										org.jvnet.localizer
-    									</groupId>
-    									<artifactId>
-    										localizer-maven-plugin
-    									</artifactId>
-    									<versionRange>
-    										[1.31,)
-    									</versionRange>
-    									<goals>
-    										<goal>generate</goal>
-    									</goals>
-    								</pluginExecutionFilter>
-    								<action>
-    									<ignore></ignore>
-    								</action>
-    							</pluginExecution>
-    							<pluginExecution>
-    								<pluginExecutionFilter>
-    									<groupId>org.kohsuke</groupId>
-    									<artifactId>
-    										access-modifier-checker
-    									</artifactId>
-    									<versionRange>
-    										[1.21,)
-    									</versionRange>
-    									<goals>
-    										<goal>enforce</goal>
-    									</goals>
-    								</pluginExecutionFilter>
-    								<action>
-    									<ignore></ignore>
-    								</action>
-    							</pluginExecution>
-    							<pluginExecution>
-    								<pluginExecutionFilter>
-    									<groupId>
-    										org.apache.maven.plugins
-    									</groupId>
-    									<artifactId>
-    										maven-ear-plugin
-    									</artifactId>
-    									<versionRange>
-    										[2.8,)
-    									</versionRange>
-    									<goals>
-    										<goal>
-    											generate-application-xml
-    										</goal>
-    									</goals>
-    								</pluginExecutionFilter>
-    								<action>
-    									<ignore></ignore>
-    								</action>
-    							</pluginExecution>
-    						</pluginExecutions>
-    					</lifecycleMappingMetadata>
-    				</configuration>
-    			</plugin>
+				<plugin>
+					<artifactId>maven-enforcer-plugin</artifactId>
+					<configuration>
+						<skip>true</skip>
+					</configuration>
+				</plugin>
+				<!--plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>3.9.0</version>
+					<configuration>
+						<source>17</source>
+						<target>17</target>
+						<release>17</release>
+						<verbose>true</verbose>
+					</configuration>
+				</plugin-->
+				<!--plugin>
+					<groupId>org.jenkins-ci.tools</groupId>
+					<artifactId>maven-hpi-plugin</artifactId>
+					<version>3.17</version>
+					<extensions>true</extensions>
+					<executions>
+						<execution>
+							<id>default-cli</id>
+							<goals>
+								<goal>run</goal>
+							</goals>
+							<configuration>
+								<minimumJavaVersion>11</minimumJavaVersion>
+
+								<webApp>
+									<contextPath>/jenkins</contextPath>
+								</webApp>
+								<systemProperties>
+									<hudson.Main.development>true</hudson.Main.development>
+								</systemProperties>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin-->
     			
     			 <plugin>
-
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-surefire-plugin</artifactId>
 					<version>3.0.0-M3</version>
